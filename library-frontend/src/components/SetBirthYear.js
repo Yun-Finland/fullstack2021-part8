@@ -25,7 +25,7 @@ const SetBirthYear = ({ authors }) => {
         <div>
           name
           <select value={name} onChange={({target})=>setName(target.value)}>
-            {authors.map(n => <option label={n.name} value={n.name}>{n.name}</option>)}
+            {authors.map(n => <option key={n.name} label={n.name} value={n.name}>{n.name}</option>)}
           </select>
         </div>
         <div>
