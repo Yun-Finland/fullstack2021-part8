@@ -23,6 +23,9 @@ const NewBook = (props) => {
     console.log('add book...')
   
     createBook({ variables: {title, author, published, genres}})
+    props.setMessage({content: `New book ${title} has been added`,
+      style: "success"
+    })
 
     setTitle('')
     setPublished('')

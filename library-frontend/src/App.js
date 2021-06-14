@@ -6,12 +6,14 @@ import Books from './components/Books'
 import NewBook from './components/NewBook'
 import LoginForm from './components/LoginForm'
 import Recommend from './components/Recommend'
-import {  ME } from './queries'
+import { ME } from './queries'
+import Notification from './components/Notification'
 
 const App = () => {
   const [ page, setPage ] = useState('authors')
   const [ token, setToken ] = useState(null)
   const [ user, setUser ] = useState(null)
+  const [ message, setMessage ] = useState({content: null, style: null})
   const client = useApolloClient()
   const user_result = useQuery(ME)
 
@@ -32,6 +34,7 @@ const App = () => {
     setToken(null)
     localStorage.clear()
     client.resetStore()
+    setPage('login')
   }
 
   if(!token){
@@ -42,6 +45,10 @@ const App = () => {
           <button onClick={() => setPage('books')}>books</button>
           <button onClick={() => setPage('login')}>login</button>
         </div>
+        <Notification 
+          message = {message}
+          setMessage = {setMessage}
+        />
 
         <Authors
           show={page === 'authors'}
@@ -55,6 +62,8 @@ const App = () => {
         <LoginForm
           show={page === 'login'}
           setToken = {setToken}
+          setPage = {setPage}
+          setMessage = {setMessage}
         />
       </div>
     )
@@ -70,6 +79,11 @@ const App = () => {
         <button onClick={logout}>log out</button>          
       </div>
 
+      <Notification 
+          message = {message}
+          setMessage = {setMessage}
+        />
+
       <Authors
         show={page === 'authors'}
         token = {token}
@@ -81,6 +95,7 @@ const App = () => {
 
       <NewBook
         show={page === 'add'}
+        setMessage = {setMessage}
       />
 
       <Recommend

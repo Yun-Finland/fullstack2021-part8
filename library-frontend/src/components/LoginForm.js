@@ -2,13 +2,15 @@ import { useMutation } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 import { LOGIN } from '../queries'
 
-const LoginForm = ({show, setToken}) => {
+const LoginForm = ({show, setToken, setPage, setMessage}) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
   const [ login, result ] = useMutation(LOGIN, {
     onError: (error) => {
-      console.log(error.graphQLErrors[0].message)
+      setMessage({content: error.graphQLErrors[0].message, 
+        style: "error"
+      })
     }
   })
 
@@ -24,6 +26,7 @@ const LoginForm = ({show, setToken}) => {
     event.preventDefault()
     
     login({ variables: { username, password }})
+    setPage('authors')
     setPassword('')
     setUsername('')
   }
