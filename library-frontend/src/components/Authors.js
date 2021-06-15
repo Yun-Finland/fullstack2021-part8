@@ -1,11 +1,17 @@
-import { useQuery } from '@apollo/client'
+import { useQuery, useSubscription } from '@apollo/client'
 import React from 'react'
 
-import { ALL_AUTHORS } from '../queries'
+import { ALL_AUTHORS, BOOK_ADDED } from '../queries'
 import SetBirthYear from './SetBirthYear'
 
 const Authors = (props) => {
   const result = useQuery(ALL_AUTHORS)
+
+  useSubscription(BOOK_ADDED, {
+    onSubscriptionData: () => {
+      result.refetch()
+    }
+  })
 
   if (!props.show) {
     return null

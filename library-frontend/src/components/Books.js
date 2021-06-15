@@ -1,6 +1,6 @@
-import { useQuery } from '@apollo/client'
+import { useQuery, useSubscription } from '@apollo/client'
 import React, { useState } from 'react'
-import { ALL_BOOKS } from '../queries'
+import { ALL_BOOKS, BOOK_ADDED } from '../queries'
 
 const ButtonFilter = ({ genres, setFilter }) => {
   const newGenres = new Set(genres)
@@ -24,6 +24,12 @@ const ButtonFilter = ({ genres, setFilter }) => {
 const Books = (props) => {
   const result = useQuery(ALL_BOOKS)
   const [newFilter, setFilter ] = useState(null)
+
+  useSubscription(BOOK_ADDED, {
+    onSubscriptionData: () => {
+      result.refetch()
+    }
+  })
 
   if (!props.show) {
     return null

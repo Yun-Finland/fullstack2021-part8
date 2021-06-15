@@ -1,6 +1,6 @@
 import React,{useEffect} from 'react'
-import { useLazyQuery } from '@apollo/client'
-import { ALL_BOOKS } from '../queries'
+import { useLazyQuery, useSubscription } from '@apollo/client'
+import { ALL_BOOKS, BOOK_ADDED } from '../queries'
 
 const Recommend = ({ show, user })=> {
 
@@ -11,6 +11,12 @@ const Recommend = ({ show, user })=> {
       getBooks({variables: {genre: user.favoriteGenre}})
     }
   }, [user, getBooks])
+
+  useSubscription(BOOK_ADDED, {
+    onSubscriptionData: () => {
+      result.refetch()
+    }
+  })
   
   if(!show || !user){
     return null
