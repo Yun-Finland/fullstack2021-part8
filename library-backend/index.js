@@ -136,13 +136,13 @@ const resolvers = {
     allAuthors: async () => {
       const authors = await Author.find({})
       const books = await Book.find({}).populate('author')
-
+      
       const returnedAuthors = authors.map(authorTemp => {
         const returnedBooks = books.filter(book => book.author.name === authorTemp.name)
         authorTemp.bookCount = returnedBooks.length
         return authorTemp
       })
-
+      
       return returnedAuthors
     },
 
